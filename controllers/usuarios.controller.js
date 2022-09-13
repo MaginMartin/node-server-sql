@@ -1,10 +1,10 @@
-const connection = require("../sqlConnection");
+const connection = require("../config/sqlConnection");
 
 
  const metodoGetUsuario =  (req,res) =>{
         if(req.params.idUsuario){
               connection.query(
-                'SELECT * FROM usuario WHERE idUsuario = ? AND activo = 1'  ,
+                'SELECT * FROM usuarios WHERE idUsuario = ? AND activo = 1'  ,
                 [req.params.idUsuario],
                 (err, results) => {
                   if(err) res.send(err);
@@ -15,9 +15,9 @@ const connection = require("../sqlConnection");
 }
 
 const metodoPostUsuario =  (req,res) =>{
-    const { nombre, apellido, mail, tipo, alias,password} =  req.body.usuarios;
+    const { nombre, apellido, mail, tipo, alias,password} =  req.body.usuario;
     // TODO: codificar pass
-    if(req.body.usuarios){
+    if(req.body.usuario){
        connection.query(
         'INSERT INTO usuarios VALUE ( null, ?, ?, ?, ?, ? , true )'  ,
         [nombre, apellido, mail, tipo, alias,password],

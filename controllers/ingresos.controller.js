@@ -1,4 +1,4 @@
-const connection = require("../sqlConnection");
+const connection = require("../config/sqlConnection");
 
 
  const metodoGetIngreso =  (req,res) =>{

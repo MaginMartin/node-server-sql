@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/:idUsuario', metodoGetEgreso);
 router.post('/:idUsuario', metodoPostEgreso);
-router.put('/:idEgreso', metodoPutEgreso);
-router.delete('/:idEgreso', metodoDeleteEgreso);
+router.put('/', metodoPutEgreso);
+router.put('/', metodoDeleteEgreso);
 
 module.exports= router

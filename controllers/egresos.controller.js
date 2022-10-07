@@ -15,9 +15,9 @@ const connection = require("../config/sqlConnection");
 }
 
 const metodoPostEgreso =  (req,res) =>{
-    const { monto, titulo, descripcion, tipo, fechaInicio,fechaFinal,idUsuario} =  req.body.egresos;
+    const { monto, titulo, descripcion, tipo, fechaInicio,fechaFinal,idUsuario} =  req.body.datosApp;
     
-    if(req.body.egresos){
+    if(req.body.datosApp){
        connection.query(
         'INSERT INTO egresos VALUE ( null, ?, ?, ?, ?, ? , ?, ?, true )'  ,
         [monto, titulo, descripcion, tipo, fechaInicio,fechaFinal,idUsuario],
@@ -32,9 +32,8 @@ const metodoPostEgreso =  (req,res) =>{
 
 
 const metodoPutEgreso =  (req,res) =>{
-  const {monto, titulo, descripcion, tipo, fechaInicio,fechaFinal} =  req.body.egresos;
-  const idEgreso = parseInt(req.params.idEgreso)
-  if(req.body.egresos){
+  const {monto, titulo, descripcion, tipo, fechaInicio,fechaFinal,idEgreso} =  req.body.datosApp;
+  if(req.body.datosApp){
      connection.query(
       'UPDATE egresos SET monto = ?,titulo = ? , descripcion = ?, tipo = ?, fechaInicio = ?,fechaFinal = ? WHERE idEgreso = ?'  ,
       [monto, titulo, descripcion, tipo, fechaInicio,fechaFinal,idEgreso],
@@ -47,7 +46,7 @@ const metodoPutEgreso =  (req,res) =>{
 }
 
 const metodoDeleteEgreso =  (req,res) =>{
-  const idEgreso = parseInt(req.params.idEgreso)
+  const idEgreso = parseInt(req.body.datosApp.idEgreso)
   if(idEgreso){
      connection.query(
       'UPDATE egresos SET activo = false WHERE idEgreso = ?',

@@ -1,29 +1,52 @@
 const connection = require("../config/sqlConnection");
-
-
+const bcrypt = require('bcryptjs')
  const metodoGetUsuario =  (req,res) =>{
-        if(req.params.idUsuario){
+let {email,password} = req.body.usuario
+  
+
+
+        if(email&&password){
               connection.query(
-                'SELECT * FROM usuarios WHERE idUsuario = ? AND activo = 1'  ,
-                [req.params.idUsuario],
+                'SELECT idUsuario,nombre,apellido,alias,password FROM usuarios WHERE mail = ?  AND activo = 1'  ,
+                [email],
                 (err, results) => {
+
+                  // console.log(results)
                   if(err) res.send(err);
-                  res.send(results);
+                  const hash= results[0].password
+                   bcrypt.compare(password,hash).then(passCorrecto=>{
+
+                          if(passCorrecto){
+                            res.send({
+                      idUsuario:results[0].idUsuario,
+                      nombre:results[0].nombre ,
+                      apellido:results[0].apellido ,
+                      alias:results[0].alias 
+                    })
+                  }
+                   })
+              
+           
                 }
               );
         }
 }
 
 const metodoPostUsuario =  (req,res) =>{
-    const { nombre, apellido, mail, tipo, alias,password} =  req.body.usuario;
+    let { nombre, apellido, email, alias,password} =  req.body.usuario;
     // TODO: codificar pass
+    // vueltas de encriptacion 
+    const salt = bcrypt.genSaltSync();
+    password = bcrypt.hashSync(password,salt)
+
     if(req.body.usuario){
        connection.query(
         'INSERT INTO usuarios VALUE ( null, ?, ?, ?, ?, ? , true )'  ,
-        [nombre, apellido, mail, tipo, alias,password],
+        [nombre, apellido, email, alias,password],
         (err, results) => {
            if(err) res.send(err);
           res.send(results);
+          // console.log(results)
         }
       );
 }
@@ -59,8 +82,6 @@ const metodoDeleteUsuario =  (req,res) =>{
     );
 }
 }
-
-
 
 module.exports = {
     metodoGetUsuario,

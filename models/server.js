@@ -30,6 +30,7 @@ class Server{
     listen(){
 
             this.app.listen(this.port)
+            console.log('Servidor activo en el puerto', this.port)
     }
 }
 

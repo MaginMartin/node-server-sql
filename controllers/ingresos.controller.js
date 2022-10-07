@@ -15,9 +15,9 @@ const connection = require("../config/sqlConnection");
 }
 
 const metodoPostIngreso =  (req,res) =>{
-    const { monto, titulo, descripcion, tipo, fechaInicio,fechaFinal,idUsuario} =  req.body.ingresos;
+    const { monto, titulo, descripcion, tipo, fechaInicio,fechaFinal,idUsuario} =  req.body.datosApp;
     
-    if(req.body.ingresos){
+    if(req.body.datosApp){
        connection.query(
         'INSERT INTO ingresos VALUE ( null, ?, ?, ?, ?, ? , ?, ?, true )'  ,
         [monto, titulo, descripcion, tipo, fechaInicio,fechaFinal,idUsuario],
@@ -32,9 +32,9 @@ const metodoPostIngreso =  (req,res) =>{
 
 
 const metodoPutIngreso =  (req,res) =>{
-  const {monto, titulo, descripcion, tipo, fechaInicio,fechaFinal} =  req.body.ingresos;
-  const idIngreso = parseInt(req.params.idIngreso)
-  if(req.body.ingresos){
+  const {monto, titulo, descripcion, tipo, fechaInicio,fechaFinal} =  req.body.datosApp;
+  const idIngreso = parseInt( req.body.datosApp.idIngreso)
+  if(req.body.datosApp){
      connection.query(
       'UPDATE ingresos SET monto = ?,titulo = ? , descripcion = ?, tipo = ?, fechaInicio = ?,fechaFinal = ? WHERE idIngreso = ?'  ,
       [monto, titulo, descripcion, tipo, fechaInicio,fechaFinal,idIngreso],
@@ -47,11 +47,11 @@ const metodoPutIngreso =  (req,res) =>{
 }
 
 const metodoDeleteIngreso =  (req,res) =>{
-  const idIngreso = parseInt(req.params.idIngreso)
-  if(idIngreso){
+  const id = parseInt( req.body.datosApp.idIngreso)
+  if(id){
      connection.query(
-      'UPDATE ingresos SET activo = false WHERE idIngreso = ?',
-      [idIngreso],
+      'UPDATE ingresos SET activo = 0 WHERE idIngreso = ?',
+      [id],
       (err, results) => {
          if(err) res.send(err);
         res.send(results);

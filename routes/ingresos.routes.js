@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/:idUsuario', metodoGetIngreso);
 router.post('/:idUsuario', metodoPostIngreso);
-router.put('/:idIngreso', metodoPutIngreso);
-router.delete('/:idIngreso', metodoDeleteIngreso);
+router.put('/', metodoPutIngreso);
+router.put('/', metodoDeleteIngreso);
 
 module.exports= router
